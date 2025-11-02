@@ -46,6 +46,16 @@ It hosts Web Server which will forward [Sunshine](https://docs.lizardbyte.dev/pr
 
 5. Go to `localhost:8080` and view the web interface. You can also the change [bind address](#bind-address).
 
+### Unraid
+
+1. Copy `docker/unraid-template.xml` to `/boot/config/plugins/dockerMan/templates-user/` on your Unraid server (or use *Add Container ➜ Template ➜ Load* to browse to the file).
+2. In the Docker tab select *Add Container*, choose the "moonlight-web-stream" template, and adjust the host port as needed.
+3. Map `/mnt/user/appdata/moonlight-web-stream` (or another appdata path) to `/moonlight-web/server` to persist `config.json`, pairing data, and certificates.
+4. The template exposes environment variables (for example `ML_WEB_BIND_IP`, `ML_WEB_PORT`, `ML_WEB_ICE_SERVER_URLS`, `ML_WEB_ICE_USERNAME`, `ML_WEB_ICE_CREDENTIAL`, `ML_WEB_NAT_IPS`) that translate directly into the Moonlight Web config so you can control bind address, TURN credentials, and NAT settings from the Unraid UI.
+5. Forward the chosen TCP port and UDP range (default `8080` and `40000-40100/udp`) through your router or firewall if you intend to stream over the internet.
+
+The repository ships a GitHub Actions workflow that builds and pushes a `linux/amd64` Docker image to Docker Hub once you configure the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` secrets for your account. Trigger it by pushing to `master`, creating a tag that starts with `v`, or running the workflow manually from the Actions tab.
+
 ## Setup
 
 Add your pc:
